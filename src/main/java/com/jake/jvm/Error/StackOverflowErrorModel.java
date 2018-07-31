@@ -2,6 +2,8 @@ package com.jake.jvm.Error;
 
 /**
  * java函数调用时,虚拟机会分配堆栈,当栈空间不足(内存不足)时,会抛出StackOverflowError
+ * or
+ * 当栈深度超出虚机分配给线程的栈大小时,会抛出StackOverflowError
  * <p>
  * 常见出现该异常Error:
  *      1-深度递归,方法递归,导致虚拟机一直分配堆栈,导致最终栈空间不足
