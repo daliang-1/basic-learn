@@ -16,9 +16,11 @@ public class OutOfMemoryErrorModel {
 
     public static void main(String[] args) {
         List<Object> list = Lists.newArrayList();
+        int num = 0;
         while (true) {
             // 无限制的新增数据量,线程无限制申请内存,导致内存溢出
-            list.add(new int[1000000]);
+            list.add(new byte[1024 * 1024]); // 每次新增1M大小的数据对象
+            System.out.println(++num);
         }
     }
 }
