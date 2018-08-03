@@ -6,6 +6,13 @@ package com.jake.jvm.Transfer;
  * 内存分配:基本数据类型全部在栈内存中,且对应基本数据类型有值
  *         引用数据类型也在栈内存中,但是只有引用数据类型的引用(or 地址值),引用类型数据保存在堆内存,栈内存中的引用(or 地址值)指向堆内存数据
  *
+ * 基本数据类型全部是值传递,
+ * String为引用数据类型,String比较特殊,对String进行重新赋值时,我理解为
+ *
+ * str = new String("123");
+ * str = str;
+ * 所以临时的栈内存数据会新建一个引用指向堆内存中新的String对象,不会对原来的String对象进行修改
+ *
  * @author: chenliang.wang
  * @Date: 2018年08月01日 AM10:36
  * @company: 易宝支付(YeePay)
@@ -42,7 +49,8 @@ public class ReferenceTransfer {
 
     public static void addParam(int age, String name) {
         age++;
-        name = "addParam name" + name;
+        name = new String("addParam name");
+        name = name;
     }
 
     public static void changeEntity(TransferEntity entity) {
