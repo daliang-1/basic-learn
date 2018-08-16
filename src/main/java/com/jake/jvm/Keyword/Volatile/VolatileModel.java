@@ -38,6 +38,8 @@ public class VolatileModel {
 
     private static AtomicInteger b = new AtomicInteger();
 
+    public static int c = 0;
+
     // 非公平锁/可重入锁,空参构造方法默认执行非公平锁,有参数构造方法可执行锁的类型
 //    private Lock lock = new ReentrantLock();
     private Lock lock = new ReentrantLock(false);
@@ -50,10 +52,11 @@ public class VolatileModel {
             new Thread() {
                 public void run() {
                     for (int j = 0; j < 1000; j++)
-//                        test.add(); // 无法保证原子性
+//                        test.add(); // volatile无法保证原子性
 //                        test.addByLock(); // 加锁,保证原子性
 //                        test.addBySynchronized(); // 加同步方法,保证原子性
-                        test.addByAtomic(); // 原子操作类,保证原子性
+//                        test.addByAtomic(); // 原子操作类,保证原子性
+                    test.addC(); // 说明内存模型中线程工作缓存与主内存同步延迟导致数据错误
                 }
             }.start();
         }
@@ -62,6 +65,7 @@ public class VolatileModel {
         Thread.sleep(10000);
         System.out.println("a = " + a);
         System.out.println("b = " + b.get());
+        System.out.println("c = " + c);
     }
 
     public void add() {
@@ -86,6 +90,10 @@ public class VolatileModel {
 
     public static void addByAtomic(){
         b.getAndIncrement();
+    }
+
+    public static void addC() {
+        c++;
     }
 
     /**
