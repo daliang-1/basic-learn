@@ -25,6 +25,7 @@ public class InternModel {
 //        test4();
 //        test5();
         test6();
+
     }
 
     public static void test1(){
