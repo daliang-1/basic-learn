@@ -7,6 +7,14 @@ package com.jake.jvm.Object_load;
  *      类的加载机制了解么,主要有哪些过程?
  * 问题2:
  *      static final 修饰的成员变量，在类加载时有什么注意点？
+ * 问题3：
+ *      什么事ConstantValue属性？
+ * 问题4:
+ *      static 修饰的变量赋值方式?
+ * 问题5:
+ *      为什么ConstantValue的属性值只限于基本类型和string？
+ * 问题6:
+ *      final、static、static final修饰的字段赋值的区别?
  *
  * @author: chenliang.wang
  * @Date: 2018年08月09日 PM6:22
@@ -16,23 +24,121 @@ public class LoadTest {
 
     public static void main(String[] args) {
 //        show_one();
-//        show_two();
-        staticFinal();
+        show_two();
+//        staticFinal();
+//        load1();
+//        load2();
+//        load3();
+//        load4();
+//        load5();
+//        load5_1();
+//        load6();
+//        load7();
+//        load8();
+//        load9();
     }
+
+    /**
+     * 实例化,会显示初始化
+     */
+    public static void load1() {
+        LoadModel loadModel = new LoadModel();
+        System.out.println("load a = " + loadModel.getA());
+    }
+
+    /**
+     * 访问类的静态常量(非static final修饰),会显示初始化
+     */
+    public static void load2() {
+        System.out.println("load a = " + LoadModel.a);
+    }
+
+    /**
+     * 反射,Class.forName("packagePath")
+     * 若不指定参数 initialize 为true,则会显示初始化
+     * 若不指定参数 initialize 为false,则不会显示初始化
+     */
+    public static void load3() {
+        try {
+            Class clazz = Class.forName("com.jake.jvm.Object_load.LoadModel",false,ClassLoader.getSystemClassLoader());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+    /**
+     * 通过类名获取类Class,不会进行显示初始化
+     */
+    public static void load4() {
+        Class clazz = LoadModel.class;
+    }
+
+    /**
+     * 访问类的静态常量(static final修饰),不会显示初始化
+     */
+    public static void load5() {
+        System.out.println("load c = " + LoadModel.b);
+    }
+
+    /**
+     * 访问类的静态变量(static final修饰),会显示初始化
+     */
+    public static void load5_1() {
+        System.out.println("load b = " + LoadModel.c);
+    }
+
+    /**
+     * 通过子类引用父类的静态字段，只会触发父类的初始化，而不会触发子类的初始化。
+     */
+    public static void load6() {
+        System.out.println("load a = " + LoadModelSon2.a);
+    }
+
+    /**
+     * 通定义对象数组，不会触发该类的初始化。
+     */
+    public static void load7() {
+        LoadModelSon2[] loadModelSon2s = new LoadModelSon2[1];
+    }
+
+    /**
+     * 通过类名获取class对象，不会触发该类的初始化
+     */
+    public static void load8() {
+        Class clazz = LoadModelSon2.class;
+    }
+
+    /**
+     * 通过ClassLoader默认的loadClass方法，也不会触发初始化动作。
+     */
+    public static void load9() {
+        try {
+            ClassLoader.getSystemClassLoader().loadClass("com.jake.jvm.Object_load.LoadModelSon2");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     /**
      * static final 修饰的成员变量不进行初始化
      * 体现:static代码块未执行
      */
-    public static void staticFinal(){
-        System.out.println(LoadModelFather.c);
+    public static void staticFinal() {
+        LoadModelFather loadModelFather = new LoadModelFather();
+        System.out.println(loadModelFather.c);
     }
 
     /**
      * 成员1
      */
-    public static void show_one(){
+    public static void show_one() {
         System.out.println(LoadModelFather.a);
         System.out.println(LoadModelFather.b);
         System.out.println(LoadModelFather.c);
@@ -41,13 +147,11 @@ public class LoadTest {
     /**
      * 成员2
      */
-    public static void show_two(){
+    public static void show_two() {
         System.out.println(LoadModelFather.a);
         System.out.println(LoadModelFather.b);
         System.out.println(LoadModelFather.c);
     }
-
-
 
     /**
      * 回答
@@ -65,7 +169,7 @@ public class LoadTest {
      *              3)通过网络加载class文件
      *              4把一个Java源文件动态编译、并执行加载
      *
-     *      2、链接：
+     *      2、连接：
      *          链接指的是将Java类的二进制文件合并到jvm的运行状态之中的过程。在链接之前，这个类必须被成功加载。
      *          类的链接包括验证、准备、解析这三步。具体描述如下：
      *
@@ -89,13 +193,34 @@ public class LoadTest {
      *
      *          在以下几种情况中，会执行初始化过程：
      *          1)创建类的实例
-     *          2)访问类或接口的静态变量（特例：如果是用static *final修饰的常量，那就不会对类进行显式初始化。static final 修改的变量则会做显式初始化）
+     *          2)访问类或接口的静态变量（特例：如果是用static final修饰的常量，那就不会对类进行显式初始化。static final 修改的变量则会做显式初始化）
      *          3)调用类的静态方法
      *          4)反射（Class.forName(packagename.className)）
      *          5)初始化类的子类。注：子类初始化问题：满足主动调用，即父类访问子类中的静态变量、方法，子类才会初始化；否则仅父类初始化。
      *          6)java虚拟机启动时被标明为启动类的类
      *
      *     问题2:
-     *          static final 修饰的成员变量不进行初始化
+     *          static final 修饰的静态常量不进行初始化,直接赋值为变量定义(String和基本数据类型)的值
+     *          static final 修饰的成员变量进行初始化
+     *
+     *     问题3:
+     *          static final 修饰的变量,且仅限于基本类型和String
+     *          作用:通知虚拟机自动为静态变量赋值
+     *
+     *     问题4:
+     *          static 修饰的变量有两种赋值方式
+     *          1.在类构造中赋值(单一static修饰).
+     *          2.使用ConstantValue属性赋值(static final修饰,且仅限于基本类型和String).
+     *
+     *     问题5:
+     *          因为从常量池中只能引用到基本类型和String类型的字面量
+     *
+     *     问题6:
+     *          static修饰的字段在加载过程中准备阶段被初始化，但是这个阶段只会赋值一个默认的值（0或者null而并非定义变量设置的值）初始化阶段在类构造器中才会赋值为变量定义的值。
+     *
+     *          final修饰的字段在运行时被初始化，可以直接赋值，也可以在实例构造器中赋值，赋值后不可修改。
+     *
+     *          static final修饰的字段在javac编译时生成comstantValue属性，在类加载的准备阶段直接把constantValue的值赋给该字段。
+     *          可以理解为在编译期即把结果放入了常量池中。
      */
 }

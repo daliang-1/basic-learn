@@ -7,9 +7,14 @@ package com.jake.jvm.Object_load;
  */
 public class LoadModelSon extends LoadModelFather {
 
+    public static int d = 0;
+
     static {
         System.out.println("This is LoadModelSon init");
     }
 
-    public static int d = 0;
+
+    public LoadModelSon() {
+        d++;
+    }
 }
