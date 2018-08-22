@@ -1,7 +1,11 @@
 package com.jake.jvm.Error;
 
 import com.google.common.collect.Lists;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +22,9 @@ public class OutOfMemoryErrorModel {
     public static void main(String[] args) {
 //        OOM1();
 
-        OOM2();
+//        OOM2();
+
+        OOM3();
     }
 
     /**
@@ -35,7 +41,7 @@ public class OutOfMemoryErrorModel {
     }
 
     /**
-     * 方法区内存溢出
+     * 常量池内存溢出
      *
      * 1.6 -> -XX:PermSize=10M -XX:MaxPermSize=10M
      *        "PermGen space" : 说明常量池位于方法区(永久代)
@@ -43,6 +49,9 @@ public class OutOfMemoryErrorModel {
      * 1.7 -> -Xms5m -Xmx5m
      *        "Java heap space" : 说明常量池位于堆中
      *        "GC overhead limit exceeded" : 程序基本上耗尽了所有的可用内存,GC也清理不了,而GC主要负责堆回收。
+     *
+     * 1.8 -> -Xms5m -Xmx5m
+     *        "Java heap space" : 说明常量池位于堆中
      */
     public static void OOM2() {
         List<String> list = new ArrayList<String>();
@@ -51,4 +60,38 @@ public class OutOfMemoryErrorModel {
             list.add(String.valueOf(i++).intern());
         }
     }
+
+    /**
+     * 方法区内存溢出
+     *
+     * 1.6 -> -XX:PermSize=6M -XX:MaxPermSize=6M
+     *      "PermGen space" : 此时方法区在永久代
+     *
+     * 1.6 -> -XX:PermSize=6M -XX:MaxPermSize=6M
+     *      "PermGen space" : 此时方法区在永久代
+     *
+     * 1.8 -> -XX:MaxMetaspaceSize=6m
+     *      "Metaspace" : 元空间内存溢出,此时方法区从永久代搬到了元空间(系统内存)
+     */
+    public static void OOM3(){
+        while (true){
+            Enhancer enhancer = new Enhancer();
+            enhancer.setSuperclass(OOMObject.class);
+            enhancer.setClassLoader(ClassLoader.getSystemClassLoader());
+            enhancer.setUseCache(false);
+            enhancer.setCallback(new MethodInterceptor() {
+                @Override
+                public Object intercept(Object o, Method method, Object[] objects, MethodProxy proxy) throws Throwable {
+                    return proxy.invokeSuper(o,objects);
+                }
+            });
+            enhancer.create();
+        }
+    }
+
+    static class OOMObject{
+
+    }
+
 }
+

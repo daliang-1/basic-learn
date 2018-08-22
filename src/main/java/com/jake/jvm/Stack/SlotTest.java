@@ -21,6 +21,10 @@ public class SlotTest {
         releaseFail();
     }
 
+
+    /**
+     * 配置输出GC日志  -verbose:gc
+     */
     public static void release() {
         {
             byte[] bytes1 = new byte[100 * 1024 * 1024];

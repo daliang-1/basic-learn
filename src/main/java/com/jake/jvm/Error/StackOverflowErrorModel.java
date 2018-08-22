@@ -45,4 +45,5 @@ public class StackOverflowErrorModel {
     public static void transfer(TransferA transfer) {
         System.out.println(transfer.toString());
     }
+
 }
