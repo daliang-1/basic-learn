@@ -22,9 +22,9 @@ public class OutOfMemoryErrorModel {
     public static void main(String[] args) {
 //        OOM1();
 
-//        OOM2();
+        OOM2();
 
-        OOM3();
+//        OOM3();
     }
 
     /**
@@ -67,7 +67,7 @@ public class OutOfMemoryErrorModel {
      * 1.6 -> -XX:PermSize=6M -XX:MaxPermSize=6M
      *      "PermGen space" : 此时方法区在永久代
      *
-     * 1.6 -> -XX:PermSize=6M -XX:MaxPermSize=6M
+     * 1.7 -> -XX:PermSize=6M -XX:MaxPermSize=6M
      *      "PermGen space" : 此时方法区在永久代
      *
      * 1.8 -> -XX:MaxMetaspaceSize=6m

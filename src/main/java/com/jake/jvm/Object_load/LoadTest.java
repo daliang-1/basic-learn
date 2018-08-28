@@ -23,8 +23,8 @@ package com.jake.jvm.Object_load;
 public class LoadTest {
 
     public static void main(String[] args) {
-//        show_one();
-        show_two();
+        show_one();
+//        show_two();
 //        staticFinal();
 //        load1();
 //        load2();

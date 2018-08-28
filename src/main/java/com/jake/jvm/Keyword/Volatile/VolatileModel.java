@@ -51,7 +51,7 @@ public class VolatileModel {
         for (int i = 0; i < 10; i++) {
             new Thread() {
                 public void run() {
-                    for (int j = 0; j < 1000; j++)
+                    for (int j = 0; j < 100; j++)
 //                        test.add(); // volatile无法保证原子性
 //                        test.addByLock(); // 加锁,保证原子性
 //                        test.addBySynchronized(); // 加同步方法,保证原子性
