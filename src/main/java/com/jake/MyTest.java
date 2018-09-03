@@ -7,32 +7,10 @@ package com.jake;
  */
 public class MyTest {
 
-    private static int a = 1;
-    private static Test test = new Test();
+    public static void main(String[] args) throws InterruptedException {
 
-    static {
-        System.out.println("static  a= "+ a);
-        System.out.println("static come on");
+        System.out.println("+X+s6sE9VEk3xk+lPoBkoA==");
+
     }
 
-    public MyTest() {
-        System.out.println("构造方法 a = "+a);
-        System.out.println("构造方法 come on");
-    }
-
-    public static void test1(){
-        System.out.println("test1 a = "+ a);
-    }
-
-    public static void main(String[] args) throws Exception {
-        MyTest myTest = new MyTest();
-        System.out.println("main come on");
-    }
-}
-
-class Test{
-
-    public Test() {
-        System.out.println("test gouzao come on");
-    }
 }
