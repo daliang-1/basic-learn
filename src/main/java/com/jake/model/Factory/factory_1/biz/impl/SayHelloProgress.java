@@ -14,6 +14,6 @@ public class SayHelloProgress implements ProgressBiz {
 
     @Override
     public void process(ProgressEntity entity) {
-        System.out.println(entity.getProgressName()+" GoodBye...");
+        System.out.println(entity.getProgressName()+" Hello...");
     }
 }
