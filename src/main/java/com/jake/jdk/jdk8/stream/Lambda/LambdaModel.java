@@ -10,7 +10,8 @@ package com.jake.jdk.jdk8.stream.Lambda;
  *   只包含一个函数(abstract)的接口—"函数接口"。
  *
  *   注意点：
- *      **** 默认方法(顶级父级方法) 和 静态方法(static or default修饰) 不会破坏函数式接口的定义
+ *
+ *      **** 默认方法(default修饰)、静态方法(static修饰)、重写顶级父级方法 不会破坏函数式接口的定义
  *
  * 3.Lambda表达式格式
  *   无参
