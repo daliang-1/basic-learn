@@ -1,4 +1,4 @@
-package com.jake.stream.Lambda.NoParam_NoReturn;
+package com.jake.jdk.jdk8.stream.Lambda.NoParam_NoReturn;
 
 /**
  * 无参无返回值
