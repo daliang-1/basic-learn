@@ -2,8 +2,11 @@ package com.jake.jdk.jdk8.key_word.default_;
 
 /**
  * default关键字-JDK8新特性
+ *
  *  1）default修饰时，接口中函数可以有函数体
  *  2）子类也可重写对应default修饰的函数，执行时调用子类重新方法。
+ *  3）default修饰接口中函数，叫做"默认方法"
+ *     static修饰接口中函数，叫做"静态方法"
  *
  *
  * @author: chenliang.wang
