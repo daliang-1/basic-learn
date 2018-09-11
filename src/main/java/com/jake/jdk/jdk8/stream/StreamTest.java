@@ -1,6 +1,7 @@
 package com.jake.jdk.jdk8.stream;
 
 import com.google.common.collect.Lists;
+import com.jake.jdk.jdk8.stream.entity.Product;
 import org.junit.Test;
 
 import java.util.*;
@@ -17,7 +18,6 @@ import static java.util.stream.Collectors.toList;
  * @company: 易宝支付(YeePay)
  */
 public class StreamTest {
-
 
     /**
      * 发现 type 为 化妆品 的所有产品，然后返回以 value 降序排序好的交易 id 集合

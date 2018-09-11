@@ -1,4 +1,4 @@
-package com.jake.jdk.jdk8.stream;
+package com.jake.jdk.jdk8.stream.entity;
 
 /**
  * 测试实体类
