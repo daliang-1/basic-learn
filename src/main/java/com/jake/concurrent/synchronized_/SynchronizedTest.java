@@ -41,6 +41,10 @@ public class SynchronizedTest {
         }
     }
 
+    public synchronized void increase_5() {
+        increase_2();
+    }
+
     /**
      * 并发+无锁
      */
@@ -142,6 +146,17 @@ public class SynchronizedTest {
         SynchronizedTest test2 = new SynchronizedTest();
         new Thread(() -> test1.increase_4()).start();
         new Thread(() -> test2.increase_4()).start();
+        Thread.sleep(1000);
+        System.out.println(a);
+    }
+
+    /**
+     * synchronized 可重入锁特性
+     */
+    @Test
+    public void test_9() throws InterruptedException {
+        SynchronizedTest test = new SynchronizedTest();
+        test.increase_5();
         Thread.sleep(1000);
         System.out.println(a);
     }
