@@ -1,4 +1,4 @@
-package com.jake.concurrent.thread;
+package com.jake.concurrent.thread.way;
 
 /**
  * 创建线程—实现Runnable接口
