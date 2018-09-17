@@ -106,4 +106,5 @@ class Thread_B extends Thread{
  *      wait()之后触发notify()、notifyALl()，则会在wait()后继续执行.且多个消费者的情况下下
  *      1)使用if,notify()之后可能会因为共享资源的错误操作，导致多个消费者之前逻辑处理出错，例子中导致 IndexOutofBoundException
  *      2)使用while，notify()之后还会继续判断while条件，不会因为多消费者处理导致逻辑处理出错
+ *      所以选择使用while
  */
